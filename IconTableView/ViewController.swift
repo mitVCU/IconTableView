@@ -17,11 +17,11 @@ class ViewController: UIViewController {
         tableview.dataSource = self
         
         tableview.register(IconTableViewCell.nib(), forCellReuseIdentifier: IconTableViewCell.identifier)
+        
         configureGradientBackground()
     }
     
     func configureGradientBackground() {
-        
         let gradientBackgroundColors = [
             UIColor.red.cgColor,
             UIColor.blue.cgColor
@@ -39,25 +39,24 @@ class ViewController: UIViewController {
 
 }
 
-extension ViewController: UITableViewDelegate {
-    
-}
-
-extension ViewController: UITableViewDataSource {
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 10
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let cell = cell as? IconTableViewCell else { return }
+        cell.setIcon(place: .burrito)
+
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableview.dequeueReusableCell(withIdentifier: IconTableViewCell.identifier) as? IconTableViewCell else { return UITableViewCell() }
-        cell.icon()
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
+        return 75
     }
     
 }
